@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import rooms.backend.domain.user.User;
+import rooms.backend.exceptions.UserNotFoundException;
 import rooms.backend.repositories.UserRepository;
 
 @Service
@@ -17,11 +18,11 @@ public class AuthorizationService implements UserDetailsService {
     }
 
     public User findByEmail(String email) {
-        return this.userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        return this.userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return this.userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        return this.userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 }

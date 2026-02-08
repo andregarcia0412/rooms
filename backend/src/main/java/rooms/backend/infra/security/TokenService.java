@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import rooms.backend.domain.user.User;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 
 @Service
