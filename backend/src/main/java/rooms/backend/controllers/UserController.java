@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import rooms.backend.domain.user.CreateUserDto;
 import rooms.backend.domain.user.PatchUserDto;
 import rooms.backend.domain.user.User;
-import rooms.backend.domain.user.UserResponseDto;
+import rooms.backend.domain.user.ReturnUserDto;
 import rooms.backend.services.UserService;
 
 import java.util.UUID;
@@ -23,21 +23,21 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> createUser(@RequestBody @Valid CreateUserDto createUserDto) {
+    public ResponseEntity<ReturnUserDto> createUser(@RequestBody @Valid CreateUserDto createUserDto) {
         User user = this.userService.createUser(createUserDto);
-        return ResponseEntity.ok(new UserResponseDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt()));
+        return ResponseEntity.ok(new ReturnUserDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt(), user.getEntries()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDto> findById (@PathVariable UUID id) {
+    public ResponseEntity<ReturnUserDto> findById (@PathVariable UUID id) {
         User user = this.userService.findById(id);
-        return ResponseEntity.ok(new UserResponseDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt()));
+        return ResponseEntity.ok(new ReturnUserDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt(), user.getEntries()));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserResponseDto> patchUser (@PathVariable UUID id, @RequestBody @Valid PatchUserDto patchUserDto) {
+    public ResponseEntity<ReturnUserDto> patchUser (@PathVariable UUID id, @RequestBody @Valid PatchUserDto patchUserDto) {
         User user = this.userService.patchUser(id, patchUserDto);
-        return ResponseEntity.ok(new UserResponseDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt()));
+        return ResponseEntity.ok(new ReturnUserDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt(), user.getEntries()));
     }
 
     @DeleteMapping("/{id}")

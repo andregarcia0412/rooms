@@ -3,8 +3,10 @@ package rooms.backend.domain.user;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import rooms.backend.domain.entry.Entry;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +32,9 @@ public class User implements UserDetails {
 
     @Column(nullable = false ,name = "created_at")
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Entry> entries = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
@@ -110,5 +115,23 @@ public class User implements UserDetails {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Entry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
+    }
+
+    public void addEntry(Entry entry){
+        entries.add(entry);
+        entry.setUser(this);
+    }
+
+    public void removeEntry(Entry entry){
+        entries.remove(entry);
+        entry.setUser(null);
     }
 }

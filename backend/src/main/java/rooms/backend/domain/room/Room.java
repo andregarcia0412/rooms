@@ -1,9 +1,12 @@
 package rooms.backend.domain.room;
 
 import jakarta.persistence.*;
+import rooms.backend.domain.entry.Entry;
+import rooms.backend.domain.user.User;
 
-import java.io.File;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Table(name = "Room")
@@ -18,10 +21,20 @@ public class Room {
     private String name;
 
     @Column(nullable = false)
-    private File image;
+    private String imagePath;
+
+    @Column(nullable = false, name = "target_days")
+    private int targetDays;
 
     @Column(nullable = false, name = "created_at")
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Entry> entries = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "created_by")
+    private User createdBy;
 
     public Room(){};
 
@@ -30,10 +43,18 @@ public class Room {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Room(UUID id, String name, File image, LocalDateTime createdAt) {
+    public Room(String name, String imagePath, int targetDays, User createdBy) {
+        this.name = name;
+        this.imagePath = imagePath;
+        this.targetDays = targetDays;
+        this.createdBy = createdBy;
+    }
+
+    public Room(UUID id, String name, String imagePath, int targetDays, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
-        this.image = image;
+        this.imagePath = imagePath;
+        this.targetDays = targetDays;
         this.createdAt = createdAt;
     }
 
@@ -53,12 +74,20 @@ public class Room {
         this.name = name;
     }
 
-    public File getImage() {
-        return image;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImage(File image) {
-        this.image = image;
+    public void setImagePath(String image) {
+        this.imagePath = image;
+    }
+
+    public int getTargetDays() {
+        return targetDays;
+    }
+
+    public void setTargetDays(int targetDays) {
+        this.targetDays = targetDays;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -67,5 +96,21 @@ public class Room {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Entry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
     }
 }
