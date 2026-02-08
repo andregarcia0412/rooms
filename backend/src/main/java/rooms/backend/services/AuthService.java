@@ -12,6 +12,7 @@ import rooms.backend.domain.auth.LoginResponseDto;
 import rooms.backend.domain.auth.RegisterRequestDto;
 import rooms.backend.domain.auth.RegisterResponseDto;
 import rooms.backend.domain.user.CreateUserDto;
+import rooms.backend.domain.user.ReturnUserDto;
 import rooms.backend.domain.user.User;
 import rooms.backend.infra.security.TokenService;
 
@@ -37,15 +38,15 @@ public class AuthService {
         User user = (User) auth.getPrincipal();
         String accessToken = tokenService.generateAccessToken(user);
 
-        return new LoginResponseDto(user.getId(), user.getEmail(), user.getName(), accessToken);
+        return new LoginResponseDto(new ReturnUserDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt(), user.getEntries()), accessToken);
     }
 
     public RegisterResponseDto register(RegisterRequestDto registerRequestDto) {
         String encryptedPassword = this.passwordEncoder.encode(registerRequestDto.password());
         CreateUserDto newUser = new CreateUserDto(registerRequestDto.name(), registerRequestDto.email(), encryptedPassword);
 
-        User savedUser = this.userService.createUser(newUser);
+        ReturnUserDto savedUser = this.userService.createUser(newUser);
 
-        return new RegisterResponseDto(savedUser.getId(), savedUser.getName(), savedUser.getEmail());
+        return new RegisterResponseDto(savedUser);
     }
 }

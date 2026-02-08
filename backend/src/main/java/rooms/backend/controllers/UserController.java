@@ -1,11 +1,11 @@
 package rooms.backend.controllers;
 
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rooms.backend.domain.user.CreateUserDto;
 import rooms.backend.domain.user.PatchUserDto;
-import rooms.backend.domain.user.User;
 import rooms.backend.domain.user.ReturnUserDto;
 import rooms.backend.services.UserService;
 
@@ -24,25 +24,21 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<ReturnUserDto> createUser(@RequestBody @Valid CreateUserDto createUserDto) {
-        User user = this.userService.createUser(createUserDto);
-        return ResponseEntity.ok(new ReturnUserDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt(), user.getEntries()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.createUser(createUserDto));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ReturnUserDto> findById (@PathVariable UUID id) {
-        User user = this.userService.findById(id);
-        return ResponseEntity.ok(new ReturnUserDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt(), user.getEntries()));
+        return ResponseEntity.ok(this.userService.findDtoById(id));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<ReturnUserDto> patchUser (@PathVariable UUID id, @RequestBody @Valid PatchUserDto patchUserDto) {
-        User user = this.userService.patchUser(id, patchUserDto);
-        return ResponseEntity.ok(new ReturnUserDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt(), user.getEntries()));
+        return ResponseEntity.ok(this.userService.patchUser(id, patchUserDto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteUser(@PathVariable UUID id) {
-        this.userService.deleteUser(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> deleteUser(@PathVariable UUID id) {
+        return ResponseEntity.ok(this.userService.deleteUser(id));
     }
 }
