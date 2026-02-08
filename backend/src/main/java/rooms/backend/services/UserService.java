@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import rooms.backend.domain.user.CreateUserDto;
 import rooms.backend.domain.user.PatchUserDto;
 import rooms.backend.domain.user.User;
-import rooms.backend.exceptions.UserAlreadyExistsException;
-import rooms.backend.exceptions.UserNotFoundException;
+import rooms.backend.exceptions.AlreadyExistsException;
+import rooms.backend.exceptions.NotFoundException;
 import rooms.backend.repositories.UserRepository;
 
 import java.util.UUID;
@@ -24,7 +24,7 @@ public class UserService {
 
     public User createUser(CreateUserDto createUserDto) {
         if(userRepository.findByEmail(createUserDto.email()).isPresent()) {
-            throw new UserAlreadyExistsException();
+            throw new AlreadyExistsException("User already exists");
         }
 
         User user = new User(createUserDto.name(), createUserDto.email(), createUserDto.password());
@@ -33,15 +33,15 @@ public class UserService {
     }
 
     public User findById(UUID id) {
-        return this.userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        return this.userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     public User findByEmail(String email) {
-        return this.userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        return this.userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     public User patchUser(UUID id, PatchUserDto patchUserDto) {
-        User user = this.userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        User user = this.userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
 
         if(patchUserDto.name() != null) {
             user.setName(patchUserDto.name());
