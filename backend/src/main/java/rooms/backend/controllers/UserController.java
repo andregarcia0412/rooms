@@ -34,13 +34,13 @@ public class UserController {
         return ResponseEntity.ok(new UserResponseDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt()));
     }
 
-    @PatchMapping
+    @PatchMapping("/{id}")
     public ResponseEntity<UserResponseDto> patchUser (@PathVariable UUID id, @RequestBody @Valid PatchUserDto patchUserDto) {
         User user = this.userService.patchUser(id, patchUserDto);
         return ResponseEntity.ok(new UserResponseDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt()));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteUser(@PathVariable UUID id) {
         this.userService.deleteUser(id);
         return ResponseEntity.ok().build();
