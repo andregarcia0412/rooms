@@ -24,7 +24,7 @@ public class Room {
     private String imagePath;
 
     @Column(nullable = false, name = "target_days")
-    private int targetDays;
+    private Integer targetDays;
 
     @Column(nullable = false, name = "created_at")
     private LocalDateTime createdAt;
@@ -82,11 +82,11 @@ public class Room {
         this.imagePath = image;
     }
 
-    public int getTargetDays() {
+    public Integer getTargetDays() {
         return targetDays;
     }
 
-    public void setTargetDays(int targetDays) {
+    public void setTargetDays(Integer targetDays) {
         this.targetDays = targetDays;
     }
 

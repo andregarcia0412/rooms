@@ -14,7 +14,7 @@ public record CreateRoomDto(
         String imagePath,
 
         @Positive
-        int targetDays,
+        Integer targetDays,
 
         @NotNull
         UUID createdByUserId

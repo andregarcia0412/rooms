@@ -3,12 +3,10 @@ package rooms.backend.controllers;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import rooms.backend.domain.room.CreateRoomDto;
+import rooms.backend.domain.room.PatchRoomDto;
 import rooms.backend.domain.room.ReturnRoomDto;
-import rooms.backend.domain.room.Room;
-import rooms.backend.domain.user.User;
 import rooms.backend.services.RoomService;
 
 import java.util.UUID;
@@ -30,7 +28,17 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Room> getRoom(@PathVariable UUID id){
+    public ResponseEntity<ReturnRoomDto> getRoom(@PathVariable UUID id) {
         return ResponseEntity.ok(this.roomService.findById(id));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ReturnRoomDto> patchRoom(@PathVariable UUID id, @RequestBody @Valid PatchRoomDto patchRoomDto) {
+        return ResponseEntity.ok(this.roomService.patchRoom(id, patchRoomDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteRoom (@PathVariable UUID id) {
+        return ResponseEntity.ok(this.roomService.deleteRoom(id));
     }
 }

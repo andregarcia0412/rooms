@@ -9,7 +9,7 @@ public class ReturnRoomDto {
     private UUID id;
     private String name;
     private String imagePath;
-    private int targetDays;
+    private Integer targetDays;
     private ReturnUserDto returnUserDto;
 
     public ReturnRoomDto(UUID id, String name, String imagePath, int targetDays, User user) {
@@ -52,11 +52,11 @@ public class ReturnRoomDto {
         this.imagePath = imagePath;
     }
 
-    public int getTargetDays() {
+    public Integer getTargetDays() {
         return targetDays;
     }
 
-    public void setTargetDays(int targetDays) {
+    public void setTargetDays(Integer targetDays) {
         this.targetDays = targetDays;
     }
 

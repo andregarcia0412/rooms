@@ -1,10 +1,10 @@
 package rooms.backend.domain.auth;
 
+import rooms.backend.domain.user.ReturnUserDto;
+
 import java.util.UUID;
 
 public record RegisterResponseDto(
-        UUID id,
-        String name,
-        String email
+        ReturnUserDto user
 ) {
 }
