@@ -29,7 +29,7 @@ public class RoomController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ReturnRoomDto> getRoom(@PathVariable UUID id) {
-        return ResponseEntity.ok(this.roomService.findById(id));
+        return ResponseEntity.ok(this.roomService.findDtoById(id));
     }
 
     @PatchMapping("/{id}")

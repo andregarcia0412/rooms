@@ -10,22 +10,22 @@ public class ReturnRoomDto {
     private String name;
     private String imagePath;
     private Integer targetDays;
-    private ReturnUserDto returnUserDto;
+    private ReturnUserDto user;
 
     public ReturnRoomDto(UUID id, String name, String imagePath, int targetDays, User user) {
         this.id = id;
         this.name = name;
         this.imagePath = imagePath;
         this.targetDays = targetDays;
-        this.returnUserDto = new ReturnUserDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt(), user.getEntries());
+        this.user = new ReturnUserDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt(), user.getEntries());
     }
 
-    public ReturnRoomDto(UUID id, String name, String imagePath, int targetDays, ReturnUserDto returnUserDto) {
+    public ReturnRoomDto(UUID id, String name, String imagePath, int targetDays, ReturnUserDto user) {
         this.id = id;
         this.name = name;
         this.imagePath = imagePath;
         this.targetDays = targetDays;
-        this.returnUserDto = returnUserDto;
+        this.user = user;
     }
 
     public UUID getId() {
@@ -60,11 +60,11 @@ public class ReturnRoomDto {
         this.targetDays = targetDays;
     }
 
-    public ReturnUserDto getReturnUserDto() {
-        return returnUserDto;
+    public ReturnUserDto getUser() {
+        return user;
     }
 
-    public void setReturnUserDto(ReturnUserDto returnUserDto) {
-        this.returnUserDto = returnUserDto;
+    public void setUser(ReturnUserDto user) {
+        this.user = user;
     }
 }

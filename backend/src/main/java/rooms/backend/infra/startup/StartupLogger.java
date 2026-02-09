@@ -17,6 +17,6 @@ public class StartupLogger {
 
     @EventListener(ApplicationReadyEvent.class)
     public void onReady() {
-        log.info("✅ Service Running on port {}", port);
+        log.info("\uD83D\uDE80 Server running on port {}", port);
     }
 }

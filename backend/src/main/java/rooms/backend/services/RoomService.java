@@ -28,10 +28,14 @@ public class RoomService {
         return new ReturnRoomDto(savedRoom.getId(), savedRoom.getName(), savedRoom.getImagePath(), savedRoom.getTargetDays(), user);
     }
 
-    public ReturnRoomDto findById(UUID id) {
+    public ReturnRoomDto findDtoById(UUID id) {
         Room room = this.roomRepository.findById(id).orElseThrow(() -> new NotFoundException("Room not found"));
 
         return new ReturnRoomDto(room.getId(), room.getName(), room.getImagePath(), room.getTargetDays(), room.getCreatedBy());
+    }
+
+    public Room findById(UUID id) {
+        return this.roomRepository.findById(id).orElseThrow(() -> new NotFoundException("Room not found"));
     }
 
     public ReturnRoomDto patchRoom(UUID id, PatchRoomDto patchRoomDto) {
