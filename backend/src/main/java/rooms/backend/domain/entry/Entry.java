@@ -37,6 +37,8 @@ public class Entry {
         this.createdAt = LocalDateTime.now();
     }
 
+     public Entry(){}
+
     public Entry(Room room, User user, String title, String imagePath) {
         this.room = room;
         this.user = user;
