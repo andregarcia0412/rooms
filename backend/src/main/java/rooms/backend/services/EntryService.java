@@ -6,7 +6,10 @@ import rooms.backend.domain.entry.Entry;
 import rooms.backend.domain.entry.ReturnEntryDto;
 import rooms.backend.domain.room.Room;
 import rooms.backend.domain.user.User;
+import rooms.backend.exceptions.NotFoundException;
 import rooms.backend.repositories.EntryRepository;
+
+import java.util.UUID;
 
 @Service
 public class EntryService {
@@ -24,6 +27,16 @@ public class EntryService {
         Room room = this.roomService.findById(createEntryDto.idRoom());
         User user = this.userService.findById(createEntryDto.idUser());
         Entry savedEntry = this.entryRepository.save(new Entry(room, user, createEntryDto.title(), createEntryDto.imagePath()));
-        return new ReturnEntryDto(savedEntry.getId(), savedEntry.getRoom().getId(), savedEntry.getUser().getId(), savedEntry.getTitle(), savedEntry.getImagePath(), savedEntry.getCreatedAt());
+
+        return ReturnEntryDto.fromEntity(savedEntry);
+    }
+
+    public ReturnEntryDto findDtoById(UUID id) {
+        Entry entry = this.findById(id);
+        return ReturnEntryDto.fromEntity(entry);
+    }
+
+    public Entry findById(UUID id) {
+        return this.entryRepository.findById(id).orElseThrow(() -> new NotFoundException("Entry not found"));
     }
 }

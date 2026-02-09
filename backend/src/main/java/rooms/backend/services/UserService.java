@@ -32,12 +32,12 @@ public class UserService {
 
         User newUser = this.userRepository.save(user);
 
-        return new ReturnUserDto(newUser.getId(), newUser.getName(), newUser.getEmail(), newUser.getActiveDays(), newUser.getCreatedAt(), newUser.getEntries());
+        return ReturnUserDto.fromEntity(newUser);
     }
 
     public ReturnUserDto findDtoById(UUID id) {
-        User user = this.userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
-        return new ReturnUserDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt(), user.getEntries());
+        User user = this.findById(id);
+        return ReturnUserDto.fromEntity(user);
     }
 
     public User findById(UUID id) {
@@ -46,7 +46,7 @@ public class UserService {
 
     public ReturnUserDto findByEmail(String email) {
         User user = this.userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("User not found"));
-        return new ReturnUserDto(user.getId(), user.getName(), user.getEmail(), user.getActiveDays(), user.getCreatedAt(), user.getEntries());
+        return ReturnUserDto.fromEntity(user);
     }
 
     public ReturnUserDto patchUser(UUID id, PatchUserDto patchUserDto) {
@@ -69,7 +69,7 @@ public class UserService {
 
         User savedUser = userRepository.save(user);
 
-        return new ReturnUserDto(savedUser.getId(), savedUser.getName(), savedUser.getEmail(), savedUser.getActiveDays(), savedUser.getCreatedAt(), savedUser.getEntries());
+        return ReturnUserDto.fromEntity(savedUser);
     }
 
     public String deleteUser(UUID id) {

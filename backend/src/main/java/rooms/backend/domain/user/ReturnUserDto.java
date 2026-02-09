@@ -14,4 +14,14 @@ public record ReturnUserDto(
         LocalDateTime createdAt,
         List<Entry> entries
 ) {
+    public static ReturnUserDto fromEntity (User user) {
+        return new ReturnUserDto(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getActiveDays(),
+                user.getCreatedAt(),
+                user.getEntries()
+        );
+    }
 }

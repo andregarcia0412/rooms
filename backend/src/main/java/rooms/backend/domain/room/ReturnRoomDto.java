@@ -28,6 +28,16 @@ public class ReturnRoomDto {
         this.user = user;
     }
 
+    public static ReturnRoomDto fromEntity(Room room) {
+        return new ReturnRoomDto(
+                room.getId(),
+                room.getName(),
+                room.getImagePath(),
+                room.getTargetDays(),
+                room.getCreatedBy()
+        );
+    }
+
     public UUID getId() {
         return id;
     }

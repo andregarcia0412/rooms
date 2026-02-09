@@ -25,13 +25,14 @@ public class RoomService {
         User user = userService.findById(createRoomDto.createdByUserId());
         Room room = new Room(createRoomDto.name(), createRoomDto.imagePath(), createRoomDto.targetDays(), user);
         Room savedRoom = this.roomRepository.save(room);
-        return new ReturnRoomDto(savedRoom.getId(), savedRoom.getName(), savedRoom.getImagePath(), savedRoom.getTargetDays(), user);
+
+        return ReturnRoomDto.fromEntity(savedRoom);
     }
 
     public ReturnRoomDto findDtoById(UUID id) {
-        Room room = this.roomRepository.findById(id).orElseThrow(() -> new NotFoundException("Room not found"));
+        Room room = this.findById(id);
 
-        return new ReturnRoomDto(room.getId(), room.getName(), room.getImagePath(), room.getTargetDays(), room.getCreatedBy());
+        return ReturnRoomDto.fromEntity(room);
     }
 
     public Room findById(UUID id) {
@@ -55,7 +56,7 @@ public class RoomService {
 
         Room savedRoom = this.roomRepository.save(room);
 
-        return new ReturnRoomDto(savedRoom.getId(), savedRoom.getName(), savedRoom.getImagePath(), savedRoom.getTargetDays(), savedRoom.getCreatedBy());
+        return ReturnRoomDto.fromEntity(savedRoom);
     }
 
     public String deleteRoom (UUID id) {
